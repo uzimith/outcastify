@@ -20,6 +20,12 @@ func (c User) Add(name string, id string) revel.Result {
 	return c.Redirect(routes.App.Room(id))
 }
 
+func (c User) List(room string) revel.Result {
+	var users []models.User
+	Gdb.Where("Room = ?", room).Find(&users)
+	return c.RenderJson(users)
+}
+
 func (c User) Delete(id int64) revel.Result {
 	var user models.User
 	Gdb.First(&user, id)

@@ -3,10 +3,10 @@
 
 <h1>Room</h1>
 
-<ul>
-  {{range .users}}
-  <li>{{.Id}}-{{.Name}}</li>
-  {{end}}
-</ul>
+<div id="userlist"></div>
+<script src="/public/js/main.js"></script>
+<script>
+renderUserList({{.id}})
+</script>
 
 {{template "footer.html" .}}

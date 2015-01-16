@@ -10,6 +10,9 @@ GET     /room/:id                               App.Room
 POST    /room/:id                               User.Add
 DELETE  /room/:id                               User.Delete
 
+# API
+GET     /user/list                              User.List
+
 # Ignore favicon requests
 GET     /favicon.ico                            404
 
