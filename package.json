@@ -1,0 +1,40 @@
+{
+  "name": "outcastify",
+  "version": "1.0.0",
+  "description": "## Getting Started",
+  "main": "gulpfile.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "6to5ify": "^3.1.2",
+    "browserify": "^8.1.0",
+    "gulp": "^3.8.10",
+    "gulp-pleeease": "^1.1.0",
+    "gulp-plumber": "^0.6.6",
+    "gulp-ruby-sass": "^0.7.1",
+    "gulp-util": "^3.0.2",
+    "lodash": "^2.4.1",
+    "polyfill": "^0.1.0",
+    "react": "^0.12.2",
+    "reactify": "^0.17.1",
+    "vinyl-source-stream": "^1.0.0",
+    "watchify": "^2.2.1"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "reactify",
+        {
+          "harmony": true
+        }
+      ]
+    ]
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT"
+}
