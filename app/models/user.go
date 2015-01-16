@@ -10,5 +10,4 @@ type User struct {
 	Token     string `sql:"size:16;not null"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	DeletedAt time.Time
 }
