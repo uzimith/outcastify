@@ -1,7 +1,7 @@
 {{set . "title" "Home"}}
 {{template "header.html" .}}
 
-<form action="room/{{.id}}" method="">
+<form action="room/{{.id}}" method="POST">
 {{with $field := field "name" .}}
   Name : <input type="text" size="10" name="{{$field.Name}}" value="{{$field.Flash}}">
 {{end}}

@@ -1,6 +1,12 @@
-{{set . "title" "Home"}}
+{{set . "title" "Room"}}
 {{template "header.html" .}}
 
 <h1>Room</h1>
+
+<ul>
+  {{range .users}}
+  <li>{{.Id}}-{{.Name}}</li>
+  {{end}}
+</ul>
 
 {{template "footer.html" .}}
