@@ -5,7 +5,7 @@
 module:testrunner
 
 GET     /                                       App.Index
-WS      /socket                                 App.Socket
+GET     /room/:id                               App.Room
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

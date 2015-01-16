@@ -1,23 +1,11 @@
 {{set . "title" "Home"}}
 {{template "header.html" .}}
 
-<script>
-var socket = new WebSocket('ws://'+window.location.host+'/socket?user=me')
-{{if eq .RunMode "dev"}}
-  console.log("start WebSocket");
+<form action="room/{{.id}}" method="">
+{{with $field := field "name" .}}
+  Name : <input type="text" size="10" name="{{$field.Name}}" value="{{$field.Flash}}">
 {{end}}
-
-function display(event) {
-  console.log(event)
-}
-
-function send(message) {
-  socket.send(message)
-}
-
-socket.onmessage = function(event) {
-  display(JSON.parse(event.data))
-}
-</script>
+<input type="submit" value="submit" />
+</form>
 
 {{template "footer.html" .}}
