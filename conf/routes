@@ -12,6 +12,7 @@ DELETE  /room/:id                               User.Delete
 
 # API
 GET     /user/list                              User.List
+POST    /user/share                             User.Share
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

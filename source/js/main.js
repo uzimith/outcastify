@@ -4,8 +4,13 @@ var oboe = require("oboe");
 
 var User = React.createClass({
   render() {
+    var user = this.props.data;
     return(
-        <li>{this.props.data.Name}</li>
+        <tr>
+          <td>{user.Name}</td>
+          <td><input type="checkbox" name={`join[${user.Id}]`}/></td>
+          <td><input type="text" name={`private[${user.Id}]`} value={`text${user.Id}`} /></td>
+        </tr>
         );
   }
 });
@@ -27,9 +32,16 @@ var UserList = React.createClass({
   render() {
     var userlist = this.state.users.map( (user, index) => <User data={user} key={index} />)
     return(
-        <ul>
-          {userlist}
-        </ul>
+        <table>
+          <tbody>
+            <tr>
+              <th>Name</th>
+              <th>Join</th>
+              <th>Secret</th>
+            </tr>
+            {userlist}
+          </tbody>
+        </table>
       );
   }
 });

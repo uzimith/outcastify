@@ -3,7 +3,31 @@
 
 <h1>Room</h1>
 
+<h2>Join</h2>
+<form action="/room/{{.id}}" method="POST">
+{{with $field := field "name" .}}
+  Name : <input type="text" size="10" name="{{$field.Name}}" value="{{$field.Flash}}">
+{{end}}
+<input type="submit" value="submit" />
+</form>
+
+<h2>Userlist</h2>
+
+<form action="/user/share" method="POST">
 <div id="userlist"></div>
+
+<h3>Public</h3>
+
+<input type="text" name="public" value="public">
+
+<h3>Group</h3>
+
+<input type="text" name="group" value="group">
+
+<input type="submit" value="submit">
+
+</form>
+
 <script src="/public/js/main.js"></script>
 <script>
 renderUserList({{.id}})

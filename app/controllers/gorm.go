@@ -27,7 +27,7 @@ func InitDB() {
 		panic(err)
 	}
 	revel.INFO.Println("DB:migration!")
-	Gdb.AutoMigrate(&models.User{})
+	Gdb.AutoMigrate(&models.User{}, &models.Share{})
 }
 
 // transactions

@@ -15,5 +15,6 @@ func (c App) Index() revel.Result {
 }
 
 func (c App) Room(id string) revel.Result {
+	c.Session["room"] = id
 	return c.Render(id)
 }
