@@ -4,7 +4,7 @@ import (
 	"database/sql"
 
 	"github.com/jinzhu/gorm"
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/lib/pq"
 	"github.com/revel/revel"
 	"github.com/uzimith/outcastify/app/models"
 )
@@ -17,7 +17,7 @@ func InitDB() {
 	var err error
 	// open db
 	if revel.RunMode == "dev" {
-		Gdb, err = gorm.Open("sqlite3", "/tmp/gorm.db")
+		Gdb, err = gorm.Open("postgres", "user=postgres dbname=outcastify sslmode=disable")
 		Gdb.LogMode(true)
 	} else {
 		Gdb, err = gorm.Open("postgres", "user=uname dbname=udbname sslmode=disable password=supersecret")
@@ -26,7 +26,14 @@ func InitDB() {
 		revel.ERROR.Println("database error:", err)
 		panic(err)
 	}
+
+	Gdb.SetLogger(gorm.Logger{revel.INFO})
+
 	revel.INFO.Println("DB:migration!")
+	Gdb.AutoMigrate(&models.User{}, &models.Secret{})
+	Gdb.Exec("ALTER TABLE user_secret DROP CONSTRAINT fk_user, ADD CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE")
+	Gdb.Exec("ALTER TABLE user_secret DROP CONSTRAINT fk_secret, ADD CONSTRAINT fk_secret FOREIGN KEY (secret_id) REFERENCES secrets(id) ON DELETE CASCADE")
+
 }
 
 // transactions
