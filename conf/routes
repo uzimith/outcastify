@@ -7,10 +7,10 @@ module:jobs
 
 GET     /                                       App.Index
 GET     /room/:id                               App.Room
-POST    /room/:room                             User.Add
 DELETE  /room/:id                               User.Delete
 
 # API
+POST    /user/add                               User.Add
 GET     /user/list                              User.List
 POST    /user/share                             User.Share
 

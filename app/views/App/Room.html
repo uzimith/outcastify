@@ -4,7 +4,8 @@
 <h1>Room</h1>
 
 <h2>Join</h2>
-<form action="/room/{{.id}}" method="POST">
+<form action="/user/add" method="POST">
+<input type="hidden" name="room" value="{{.id}}">
 {{with $field := field "name" .}}
   Name : <input type="text" size="10" name="{{$field.Name}}" value="{{$field.Flash}}">
 {{end}}
