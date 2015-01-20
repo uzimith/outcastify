@@ -18,7 +18,6 @@ func InitDB() {
 	// open db
 	if revel.RunMode == "dev" {
 		Gdb, err = gorm.Open("postgres", "user=postgres dbname=outcastify sslmode=disable")
-		Gdb.LogMode(true)
 	} else {
 		Gdb, err = gorm.Open("postgres", "user=uname dbname=udbname sslmode=disable password=supersecret")
 	}
@@ -30,10 +29,13 @@ func InitDB() {
 	Gdb.SetLogger(gorm.Logger{revel.INFO})
 
 	revel.INFO.Println("DB:migration!")
+	Gdb.DropTableIfExists(&models.User{})
+	Gdb.DropTableIfExists(&models.Secret{})
 	Gdb.AutoMigrate(&models.User{}, &models.Secret{})
-	Gdb.Exec("ALTER TABLE user_secret DROP CONSTRAINT fk_user, ADD CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE")
-	Gdb.Exec("ALTER TABLE user_secret DROP CONSTRAINT fk_secret, ADD CONSTRAINT fk_secret FOREIGN KEY (secret_id) REFERENCES secrets(id) ON DELETE CASCADE")
-
+	Gdb.Exec("ALTER TABLE user_secret DROP CONSTRAINT fk_user")
+	Gdb.Exec("ALTER TABLE user_secret ADD CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE")
+	Gdb.Exec("ALTER TABLE user_secret DROP CONSTRAINT fk_secret")
+	Gdb.Exec("ALTER TABLE user_secret ADD CONSTRAINT fk_secret FOREIGN KEY (secret_id) REFERENCES secrets(id) ON DELETE CASCADE")
 }
 
 // transactions
