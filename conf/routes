@@ -13,6 +13,7 @@ DELETE  /room/:id                               User.Delete
 POST    /user/add                               User.Add
 GET     /user/list                              User.List
 POST    /user/share                             User.Share
+GET     /share/list                             Secret.List
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

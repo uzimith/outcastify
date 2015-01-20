@@ -1,7 +1,10 @@
 package controllers
 
 import (
+	"fmt"
+
 	"github.com/revel/revel"
+	"github.com/uzimith/outcastify/app/helper"
 	"github.com/uzimith/outcastify/app/models"
 	"github.com/uzimith/outcastify/app/routes"
 )
@@ -11,8 +14,12 @@ type User struct {
 }
 
 func (c User) Add(name string, room string) revel.Result {
-	revel.INFO.Printf("User.Add:%s %s", room, name)
-	Gdb.Create(&models.User{Name: name, Room: room, Join: true})
+	token := helper.GenerateRandom(16)
+	user := models.User{Name: name, Room: room, Join: true, Token: token}
+	Gdb.Create(&user)
+	c.Session["token"] = token
+	c.Session["userId"] = fmt.Sprintf("%d", user.Id)
+	revel.INFO.Printf("User.Add:%s %s(%d)", room, name, user.Id)
 	return c.Redirect(routes.App.Room(room))
 }
 
@@ -35,17 +42,20 @@ func (c User) Share() revel.Result {
 	c.Params.Bind(&public, "public")
 	c.Params.Bind(&group, "group")
 
-	for id, _ := range private {
-		Gdb.Where(models.Secret{
-			Users: []models.User{{Id: id}},
-			Room:  c.Session["room"]},
-		).Assign(models.Secret{Text: "text"}).FirstOrCreate(models.Secret{})
+	for id, text := range private {
+		var user models.User
+		Gdb.Where(&models.User{Id: id}).Find(&user)
+		secret := models.Secret{Text: text}
+		Gdb.Create(&secret)
+		Gdb.Model(&user).Association("Secrets").Append(secret)
 	}
-	Gdb.Create(&models.Secret{
-		Users: []models.User{},
-		Room:  c.Session["room"],
-		Text:  public,
-	})
+	// for id := range join {
+	// 	Gdb.Create(&models.Secret{
+	// 		Users: []models.User{{Id: id}},
+	// 		Room:  room,
+	// 		Text:  public,
+	// 	})
+	// }
 
 	return c.Redirect(routes.App.Room(c.Session["room"]))
 }

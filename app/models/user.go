@@ -8,7 +8,7 @@ type User struct {
 	Room      string   `sql:"size:16;not null"`
 	Name      string   `sql:"size:255"`
 	Join      bool
+	Token     string
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	DeletedAt time.Time
 }

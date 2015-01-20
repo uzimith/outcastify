@@ -8,7 +8,7 @@ var User = React.createClass({
     return(
         <tr>
           <td>{user.Name}</td>
-          <td><input type="checkbox" name={`join[${user.Id}]`}/></td>
+          <td><input type="checkbox" name={`join[${user.Id}]`} checked/></td>
           <td><input type="text" name={`private[${user.Id}]`} value={`text${user.Id}`} /></td>
         </tr>
         );
