@@ -15,7 +15,27 @@
 <h2>Userlist</h2>
 
 <form action="/user/share" method="POST">
-<div id="userlist"></div>
+<table>
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <th>Join</th>
+      <th>Secret</th>
+    </tr>
+    <div id="userlist"></div>
+  </tbody>
+</table>
+<tr>
+<script type="application/x-template" id="userlist_tmpl">
+<% for (var user of data) { %>
+<%= %>
+  <tr>
+    <td> <%= user.Name %> </td>
+    <td><input type="checkbox" name="join[<%= user.Id %>]" checked/></td>
+    <td><input type="text" name="private[<%= user.Id %>]" /></td>
+  </tr>
+<% } %>
+</script>
 
 <h3>Public</h3>
 

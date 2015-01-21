@@ -4,11 +4,13 @@
   <head>
     <title>Outcastify / {{.title}}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    {{range .moreStyles}}
+    {{range .styles}}
       <link rel="stylesheet" type="text/css" href="/public/css/{{.}}.css">
     {{end}}
+    <script src="/public/jspm_packages/system.js"></script>
+    <script src="/public/config.js"></script>
     {{range .moreScripts}}
-      <script src="/public/js/{{.}}.js" type="text/javascript" charset="utf-8"></script>
+      <script src="/public/js/{{.}}.js"></script>
     {{end}}
   </head>
   <body>
