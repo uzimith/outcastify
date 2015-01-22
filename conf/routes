@@ -11,7 +11,7 @@ DELETE  /room/:id                               User.Delete
 
 # API
 POST    /user/add                               User.Add
-GET     /user/list                              User.List
+WS      /user/list                              User.List
 POST    /user/share                             User.Share
 GET     /share/list                             Secret.List
 

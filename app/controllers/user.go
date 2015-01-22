@@ -3,6 +3,8 @@ package controllers
 import (
 	"fmt"
 
+	"code.google.com/p/go.net/websocket"
+
 	"github.com/revel/revel"
 	"github.com/uzimith/outcastify/app/helper"
 	"github.com/uzimith/outcastify/app/models"
@@ -23,11 +25,53 @@ func (c User) Add(name string, room string) revel.Result {
 	return c.Redirect(routes.App.Room(room))
 }
 
-func (c User) List(room string) revel.Result {
-	revel.INFO.Printf("User.List")
-	var users []models.User
-	Gdb.Where(&models.User{Room: room}).Find(&users)
-	return c.RenderJson(users)
+var (
+	publish    = make(chan bool)
+	disconnect = make(chan bool)
+)
+
+func (c User) List(room string, ws *websocket.Conn) revel.Result {
+	revel.INFO.Printf("User.List: Start - %s", room)
+	go func() {
+		for {
+			select {
+			case <-publish:
+				revel.INFO.Printf("User.List: Send")
+				var users []models.User
+				Gdb.Where(&models.User{Room: room}).Find(&users)
+				if websocket.JSON.Send(ws, &users) != nil {
+					revel.WARN.Printf("User.List: Send Error!")
+				}
+			case <-disconnect:
+				return
+			}
+		}
+	}()
+	publish <- true
+	reciever := make(chan string)
+	go func() {
+		var msg string
+		for {
+			err := websocket.Message.Receive(ws, &msg)
+			if err != nil {
+				close(reciever)
+				disconnect <- true
+				return
+			}
+			reciever <- msg
+		}
+	}()
+	for {
+		select {
+		case msg, ok := <-reciever:
+			if !ok {
+				disconnect <- true
+				return nil
+			}
+			revel.INFO.Printf("%s", msg)
+		}
+	}
+	return nil
 }
 
 func (c User) Share() revel.Result {
@@ -57,12 +101,13 @@ func (c User) Share() revel.Result {
 	// 	})
 	// }
 
-	return c.Redirect(routes.App.Room(c.Session["room"]))
+	publish <- true
+	return nil
 }
 
 func (c User) Delete(id int64) revel.Result {
 	var user models.User
 	Gdb.First(&user, id)
 	Gdb.Delete(&user)
-	return c.Redirect(App.Index)
+	return nil
 }
