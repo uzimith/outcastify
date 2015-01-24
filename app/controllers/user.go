@@ -27,26 +27,21 @@ func (c User) Add(name string, room string) revel.Result {
 }
 
 func (c User) List(room string, ws *websocket.Conn) revel.Result {
-	revel.INFO.Printf("User.List: Start - %s", c.Session["userId"])
 	ticker := time.NewTicker(time.Millisecond * 500)
-	disconnect := make(chan bool)
-	go func() {
+	func() {
+		revel.INFO.Printf("User.List: Start - %s", c.Session["userId"])
 		for {
 			select {
 			case <-ticker.C:
-				if revel.RunMode == "dev" {
-					fmt.Print(".")
-				}
 				var users []models.User
 				Gdb.Where(&models.User{Room: room}).Find(&users)
 				if websocket.JSON.Send(ws, &users) != nil {
 					revel.WARN.Printf("User.List: Send Error!")
-					disconnect <- true
+					return
 				}
 			}
 		}
 	}()
-	<-disconnect
 	revel.INFO.Printf("User.List: End - %s", c.Session["userId"])
 	return nil
 }
