@@ -4,17 +4,15 @@
 <h1>Room</h1>
 
 <h2>Join</h2>
-<form action="/user/add" method="POST">
+<form id="join" action="/user/add" method="POST">
 <input type="hidden" name="room" value="{{.id}}">
-{{with $field := field "name" .}}
-  Name : <input type="text" size="10" name="{{$field.Name}}" value="{{$field.Flash}}">
-{{end}}
+<input type="text" size="10" name="name">
 <input type="submit" value="submit" />
 </form>
 
 <h2>Userlist</h2>
 
-<form action="/user/share" method="POST">
+<form id="share" action="/user/share" method="POST">
 <div id="userlist"></div>
 <script type="application/x-template" id="userlist-tmpl">
 <table>
@@ -43,7 +41,7 @@
 
 <input type="text" name="group" value="group">
 
-<input type="submit" value="submit">
+<p><input type="submit" value="submit"></p>
 
 </form>
 
