@@ -20,6 +20,6 @@ func (c Refresh) Run() {
 
 func init() {
 	revel.OnAppStart(func() {
-		jobs.Schedule("@every 1d", Refresh{})
+		jobs.Schedule("@midnight", Refresh{})
 	})
 }
