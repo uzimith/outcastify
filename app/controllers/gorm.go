@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"database/sql"
+	"os"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/lib/pq"
@@ -19,7 +20,7 @@ func InitDB() {
 	if revel.RunMode == "dev" {
 		Gdb, err = gorm.Open("postgres", "user=postgres dbname=outcastify sslmode=disable")
 	} else {
-		Gdb, err = gorm.Open("postgres", "user=uname dbname=udbname sslmode=disable password=supersecret")
+		Gdb, err = gorm.Open("postgres", os.Getenv("DATABASE_URL"))
 	}
 	if err != nil {
 		revel.ERROR.Println("database error:", err)
