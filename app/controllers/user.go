@@ -30,14 +30,21 @@ func (c User) List(room string, ws *websocket.Conn) revel.Result {
 	ticker := time.NewTicker(time.Millisecond * 500)
 	func() {
 		revel.INFO.Printf("User.List: Start - %s", c.Session["userId"])
+		var sentAt time.Time
 		for {
 			select {
 			case <-ticker.C:
-				var users []models.User
-				Gdb.Where(&models.User{Room: room}).Find(&users)
-				if websocket.JSON.Send(ws, &users) != nil {
-					revel.WARN.Printf("User.List: Send Error!")
-					return
+				var lastUser models.User
+				Gdb.Where(&models.User{Room: room}).Order("updated_at desc").Find(&lastUser)
+				revel.INFO.Println(".")
+				if lastUser.UpdatedAt.Sub((sentAt)) > 0 {
+					sentAt = lastUser.UpdatedAt
+					var users []models.User
+					Gdb.Where(&models.User{Room: room}).Find(&users)
+					if websocket.JSON.Send(ws, &users) != nil {
+						revel.WARN.Printf("User.List: Send Error!")
+						return
+					}
 				}
 			}
 		}
