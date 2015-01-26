@@ -36,7 +36,6 @@ func (c User) List(room string, ws *websocket.Conn) revel.Result {
 			case <-ticker.C:
 				var lastUser models.User
 				Gdb.Where(&models.User{Room: room}).Order("updated_at desc").Find(&lastUser)
-				revel.INFO.Println(".")
 				if lastUser.UpdatedAt.Sub((sentAt)) > 0 {
 					sentAt = lastUser.UpdatedAt
 					var users []models.User
@@ -50,36 +49,6 @@ func (c User) List(room string, ws *websocket.Conn) revel.Result {
 		}
 	}()
 	revel.INFO.Printf("User.List: End - %s", c.Session["userId"])
-	return nil
-}
-
-func (c User) Share() revel.Result {
-	revel.INFO.Printf("User.Share")
-	var join map[int64]string
-	var private map[int64]string
-	var public string
-	var group string
-
-	c.Params.Bind(&join, "join")
-	c.Params.Bind(&private, "private")
-	c.Params.Bind(&public, "public")
-	c.Params.Bind(&group, "group")
-
-	for id, text := range private {
-		var user models.User
-		Gdb.Where(&models.User{Id: id}).Find(&user)
-		secret := models.Secret{Text: text}
-		Gdb.Create(&secret)
-		Gdb.Model(&user).Association("Secrets").Append(secret)
-	}
-	// for id := range join {
-	// 	Gdb.Create(&models.Secret{
-	// 		Users: []models.User{{Id: id}},
-	// 		Room:  room,
-	// 		Text:  public,
-	// 	})
-	// }
-
 	return nil
 }
 

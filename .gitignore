@@ -12,6 +12,5 @@ coverage
 .grunt
 build/Release
 node_modules
-/public/js/
 /public/css/
 public/jspm_packages

@@ -1,18 +1,22 @@
 {{set . "title" "Room"}}
 {{template "header.html" .}}
+<form id="params">
+  <input type="hidden" name="room" value="{{.room}}">
+  <input type="hidden" name="user" value="{{.userId}}">
+  <input type="hidden" name="token" value="{{.token}}">
+</form>
 
 <h1>Room</h1>
 
 <h2>Join</h2>
 <form id="join" action="/user/add" method="POST">
-<input type="hidden" name="room" value="{{.id}}">
 <input type="text" size="10" name="name">
 <input type="submit" value="submit" />
 </form>
 
 <h2>Userlist</h2>
 
-<form id="share" action="/user/share" method="POST">
+<form id="share" action="/share/add" method="POST">
 <div id="userlist"></div>
 <script type="application/x-template" id="userlist-tmpl">
 <table>
@@ -24,7 +28,7 @@
     </tr>
     <% for (user of data) { %>
       <tr>
-        <td> <%= user.Name %> </td>
+        <td class="<%= user.Id == {{.userId}} ? "me" : '' %>"> <%= user.Name %> </td>
         <td><input type="checkbox" name="join[<%= user.Id %>]" checked/></td>
         <td><input type="text" name="private[<%= user.Id %>]" /></td>
       </tr>
@@ -48,13 +52,16 @@
 <h2>Secret</h2>
 
 <div id="secretlist">
-<form action="/share/list" method="GET">
-  <input type="submit">
-</form>
 </div>
+<script type="application/x-template" id="secretlist-tmpl">
+<ul>
+  <% for (secret of data) { %>
+    <li> <%= secret.Type %> <%= secret.Text %></li>
+  <% } %>
+</ul>
+</script>
 
 <script>
-window.room = {{.id}};
 System.import('app/main');
 </script>
 

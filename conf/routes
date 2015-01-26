@@ -6,14 +6,14 @@ module:testrunner
 module:jobs
 
 GET     /                                       App.Index
-GET     /room/:id                               App.Room
+GET     /room/:room                             App.Room
 DELETE  /room/:id                               User.Delete
 
 # API
 POST    /user/add                               User.Add
 WS      /user/list                              User.List
-POST    /user/share                             User.Share
-GET     /share/list                             Secret.List
+POST    /share/add                              Secret.Add
+WS      /share/list                             Secret.List
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

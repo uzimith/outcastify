@@ -14,7 +14,9 @@ func (c App) Index() revel.Result {
 	return c.Render(id)
 }
 
-func (c App) Room(id string) revel.Result {
-	c.Session["room"] = id
-	return c.Render(id)
+func (c App) Room(room string) revel.Result {
+	c.Session["room"] = room
+	userId := c.Session["userId"]
+	token := c.Session["token"]
+	return c.Render(room, userId, token)
 }

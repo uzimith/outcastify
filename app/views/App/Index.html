@@ -1,6 +1,7 @@
 {{set . "title" "Home"}}
 {{template "header.html" .}}
 
+<h2>Create</h2>
 <form action="user/add" method="POST">
 <input type="hidden" name="room" value="{{.id}}">
 {{with $field := field "name" .}}
@@ -8,5 +9,12 @@
 {{end}}
 <input type="submit" value="submit" />
 </form>
+
+<h2>Join</h2>
+<form id="join" action="/user/add" method="POST">
+<input type="text" size="10" name="name">
+<input type="submit" value="submit" />
+</form>
+
 
 {{template "footer.html" .}}
