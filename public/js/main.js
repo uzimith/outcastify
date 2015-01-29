@@ -2,6 +2,7 @@ import Bacon from 'baconjs'
 import $ from 'jquery'
 import template from 'micro-template'
 import _ from 'lodash'
+import "js/app_materialize"
 
 var tmpl = template.template
 tmpl.variable = 'data';

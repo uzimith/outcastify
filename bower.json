@@ -1,0 +1,19 @@
+{
+  "name": "outcastify",
+  "version": "0.0.0",
+  "homepage": "https://github.com/uzimith/outcastify",
+  "authors": [
+    "uzimith <uzimith.x9@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "materialize": "~0.95.1"
+  }
+}
