@@ -4,18 +4,18 @@ var gutil = require('gulp-util');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var plumber  = require('gulp-plumber');
+var streamify = require('gulp-streamify');
+
 var watchify = require('watchify');
 var browserify = require('browserify');
 var uglify = require('gulp-uglify');
-var streamify = require('gulp-streamify');
-var sass     = require('gulp-ruby-sass');
-var pleeease = require('gulp-pleeease');
 var sourcemaps = require('gulp-sourcemaps');
+
 var jade = require('gulp-jade');
+
 var _ = require('lodash');
 
 gulp.task('js', function() {
-  // watchify
   var FILES = ["main"];
   watchify.args.fullPaths = false;
   _.each(FILES, function(file) {
@@ -44,23 +44,6 @@ gulp.task('jade', function () {
     .pipe(watch('source/jade/**/*.jade'))
     .pipe(jade({pretty: true}))
     .pipe(gulp.dest('./app/views/'))
-});
-
-gulp.task('sass', function() {
-  gulp.src('source/sass/**/*.sass')
-    .pipe(watch('source/sass/**/*.sass', ['sass']))
-    .pipe(plumber())
-    .pipe(sass({
-        style: 'nested',
-        compass: true
-    }))
-    .pipe(pleeease({
-        autoprefixer: {
-            browsers: ['last 2 versions']
-        },
-        minifier: false
-    }))
-    .pipe(gulp.dest('public/css/'));
 });
 
 gulp.task('watch', ['js', 'jade']);
