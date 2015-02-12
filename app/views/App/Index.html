@@ -1,20 +1,26 @@
+
 {{set . "title" "Home"}}
 {{template "header.html" .}}
-
-<h2>Create</h2>
-<form action="user/add" method="POST">
-<input type="hidden" name="room" value="{{.id}}">
-{{with $field := field "name" .}}
-  Name : <input type="text" size="10" name="{{$field.Name}}" value="{{$field.Flash}}">
-{{end}}
-<input type="submit" value="submit" />
+<form id="create" action="user/add" method="POST">
+  <input type="hidden" name="room" value="{{.id}}"/>
+  <div class="form-group">
+    <label>Name
+      <input type="text" size="10" name="name" class="form-control"/>
+    </label>
+  </div>
+  <input type="submit" value="Create" class="btn btn-default"/>
 </form>
-
 <h2>Join</h2>
 <form id="join" action="/user/add" method="POST">
-<input type="text" size="10" name="name">
-<input type="submit" value="submit" />
-</form>
-
-
-{{template "footer.html" .}}
+  <div class="form-group">
+    <label>ID
+      <input type="text" size="10" name="name" class="form-control"/>
+    </label>
+  </div>
+  <div class="form-group">
+    <label>Name
+      <input type="text" size="10" name="name" class="form-control"/>
+    </label>
+  </div>
+  <input type="submit" value="Join" class="btn btn-default"/>
+</form>{{template "footer.html" .}}

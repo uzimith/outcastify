@@ -1,79 +1,10 @@
+
 {{set . "title" "Room"}}
 {{template "header.html" .}}
 <form id="params">
-  <input type="hidden" name="room" value="{{.room}}">
-  <input type="hidden" name="user" value="{{.userId}}">
-  <input type="hidden" name="token" value="{{.token}}">
+  <input type="hidden" name="room" value="{{.room}}"/>
+  <input type="hidden" name="user" value="{{.userId}}"/>
+  <input type="hidden" name="token" value="{{.token}}"/>
 </form>
-<header>
-  <ul id="slide-out" class="side-nav fixed">
-    <li class="bold"><a href="">Member</a></li>
-    <ul>
-      <li><a href="kenta">Kenta</a></li>
-    </ul>
-  </ul>
-  <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
-</header>
-
-<div class="container">
-  <h1>Room</h1>
-
-  <h2>Join</h2>
-  <form id="join" action="/user/add" method="POST">
-  <input type="text" size="10" name="name">
-  <input type="submit" value="submit" />
-  </form>
-
-  <h2>Userlist</h2>
-
-  <form id="share" action="/share/add" method="POST">
-  <div id="userlist"></div>
-  <script type="application/x-template" id="userlist-tmpl">
-  <table>
-    <tbody>
-      <tr>
-        <th>Name</th>
-        <th>Join</th>
-        <th>Secret</th>
-      </tr>
-      <% for (user of data) { %>
-        <tr>
-          <td class="<%= user.Id == {{.userId}} ? "me" : '' %>"> <%= user.Name %> </td>
-          <td><input type="checkbox" name="join[<%= user.Id %>]" /></td>
-          <td><input type="text" name="private[<%= user.Id %>]" /></td>
-        </tr>
-      <% } %>
-    </tbody>
-  </table>
-  </script>
-
-  <h3>Public</h3>
-
-  <input type="text" name="public" value="public">
-
-  <h3>Group</h3>
-
-  <input type="text" name="group" value="group">
-
-  <p><input type="submit" value="submit"></p>
-
-  </form>
-
-  <h2>Secret</h2>
-
-  <div id="secretlist">
-  </div>
-  <script type="application/x-template" id="secretlist-tmpl">
-  <ul>
-    <% for (secret of data) { %>
-      <li> <%= secret.Type %> <%= secret.Text %></li>
-    <% } %>
-  </ul>
-  </script>
-</div>
-
-<script>
-System.import('app/main');
-</script>
-
-{{template "footer.html" .}}
+<div id="app"></div>
+<script src="/public/js/main.js"></script>{{template "footer.html" .}}

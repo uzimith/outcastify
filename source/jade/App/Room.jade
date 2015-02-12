@@ -1,0 +1,13 @@
+| {{set . "title" "Room"}}
+| {{template "header.html" .}}
+
+form#params
+  input(type='hidden', name='room', value='{{.room}}')
+  input(type='hidden', name='user', value='{{.userId}}')
+  input(type='hidden', name='token', value='{{.token}}')
+
+#app
+
+script(src="/public/js/main.js")
+
+| {{template "footer.html" .}}

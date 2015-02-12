@@ -8,10 +8,16 @@
     {{range .styles}}
       <link rel="stylesheet" type="text/css" href="/public/css/{{.}}.css">
     {{end}}
-    <script src="/public/jspm_packages/system.js"></script>
-    <script src="/public/config.js"></script>
-    {{range .moreScripts}}
+    {{range .scripts}}
       <script src="/public/js/{{.}}.js"></script>
     {{end}}
   </head>
   <body>
+    <header class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="">Outcastify</a>
+        </div>
+      </div>
+    </header>
+    <div class="container">

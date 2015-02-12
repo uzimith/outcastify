@@ -2,7 +2,7 @@
 	#sidebar {
 		position: absolute;
 		right: 0px;
-		bottom:69px;
+		top:69px;
 		max-width: 75%;
 		z-index: 1000;
 		background-color: #fee;
@@ -11,9 +11,8 @@
 	}
 	#toggleSidebar {
 		position: absolute;
-		right: 0px;
+		right: 10px;
 		top: 50px;
-		background-color: #fee;
 	}
 
 </style>
@@ -41,3 +40,25 @@
 	{{end}}
 	</dl>
 </div>
+<a id="toggleSidebar" href="#" class="toggles"><i class="glyphicon glyphicon-zoom-in"></i></a>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>
+	$sidebar = 0;
+	$('#toggleSidebar').click(function() {
+		if ($sidebar === 1) {
+			$('#sidebar').hide();
+			$('#toggleSidebar i').addClass('icon-chevron-left');
+			$('#toggleSidebar i').removeClass('icon-chevron-right');
+			$sidebar = 0;
+		}
+		else {
+			$('#sidebar').show();
+			$('#toggleSidebar i').addClass('icon-chevron-right');
+			$('#toggleSidebar i').removeClass('icon-chevron-left');
+			$sidebar = 1;
+		}
+
+    return false;
+	});
+</script>

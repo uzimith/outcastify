@@ -1,0 +1,20 @@
+| {{set . "title" "Home"}}
+| {{template "header.html" .}}
+
+form#create(action='user/add', method='POST')
+  input(type='hidden', name='room', value='{{.id}}')
+  .form-group
+    label Name
+      input.form-control(type='text', size='10', name='name')
+  input.btn.btn-default(type='submit', value='Create')
+h2 Join
+form#join(action='/user/add', method='POST')
+  .form-group
+    label ID
+      input.form-control(type='text', size='10', name='name')
+  .form-group
+    label Name
+      input.form-control(type='text', size='10', name='name')
+  input.btn.btn-default(type='submit', value='Join')
+
+| {{template "footer.html" .}}
